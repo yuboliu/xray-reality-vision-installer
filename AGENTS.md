@@ -2,7 +2,9 @@
 
 ## Project Structure & Module Organization
 - `reality_installer.py`: main Python entrypoint for installing and configuring Xray (`VLESS + Reality + Vision`).
+- `check_deployment.py`: read-only health check for versions, UFW rules, fq/BBR, service state, and config.
 - `tests/test_installer.py`: unit tests for parser logic, distro adapters, firewall/sysctl command selection, and config generation.
+- `tests/test_check_deployment.py`: unit tests for check-script parsers.
 - `docs/`: usage and planning docs (including Chinese deployment notes and implementation plans).
 - Root files: `README.md` (usage), `LICENSE`, `.gitignore`.
 
@@ -11,9 +13,10 @@ Keep new production logic in `reality_installer.py` unless refactoring into modu
 ## Build, Test, and Development Commands
 - `python3 -m unittest discover -s tests -v`: run all tests.
 - `python3 reality_installer.py --dry-run`: simulate installer actions without changing the system.
-- `sudo python3 reality_installer.py --server-name www.microsoft.com --port 443 --skip-upgrade`: run installer locally with explicit options.
+- `sudo python3 reality_installer.py --server-name www.tesla.com --port 443 --skip-upgrade`: run installer locally with explicit options.
+- `sudo python3 check_deployment.py`: read-only deployment health check.
 
-There is no separate build step; this project is a single Python runtime script.
+There is no separate build step; this project consists of Python runtime scripts.
 
 ## Coding Style & Naming Conventions
 - Follow PEP 8 with 4-space indentation and descriptive snake_case names (`parse_os_release_text`, `get_upgrade_commands`).
@@ -23,7 +26,7 @@ There is no separate build step; this project is a single Python runtime script.
 
 ## Testing Guidelines
 - Framework: Python `unittest`.
-- Add tests for every behavior change, especially distro detection, command generation, and config rendering.
+- Add tests for every behavior change, especially distro detection, command generation, config rendering, and check-script parsers.
 - Name tests as `test_<behavior>` and group by concern in `unittest.TestCase` classes.
 - Run `python3 -m unittest discover -s tests -v` before opening a PR.
 
